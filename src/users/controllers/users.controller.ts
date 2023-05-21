@@ -6,11 +6,12 @@ import {
   Param,
   Put,
   NotFoundException,
+  Delete,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { User } from '../models/user.interface';
 import { Observable } from 'rxjs';
-import { UpdateResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 @Controller('users')
 export class UsersController {
@@ -43,4 +44,15 @@ export class UsersController {
         }
         return this.userService.updatePost(id, Userpost)
    }
+   
+   @Delete('delete/:id')
+   async delete(@Param('id') id: number):  Promise<Observable<DeleteResult>>{
+    const user = await this.userService.deletePost(id)
+    if (!user) {
+      throw new NotFoundException('User does not exist!');
+      }
+
+      return this.userService.deletePost(id)
+   }
+
 }

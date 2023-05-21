@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { UserEntity } from '../models/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../models/user.interface';
@@ -23,7 +23,11 @@ export class UsersService {
     return from(this.userRepository.findOne({ where: { id } }));
   }
 
-  updatePost(id : number, userPost: User ) {
+  updatePost(id : number, userPost: User ): Observable<UpdateResult> {
     return from(this.userRepository.update(id, userPost))
+  }
+
+  deletePost(id: number): Observable<DeleteResult>{
+    return from(this.userRepository.delete(id))
   }
 }
