@@ -36,23 +36,25 @@ export class UsersController {
 
     return this.userService.findPost(id);
   }
-   @Put('update/:id')
-   async update(@Body() Userpost: User, @Param('id') id: number): Promise<Observable<UpdateResult>>{
-        const  user = await this.userService.updatePost(id, Userpost)
-        if (!user) {
-            throw new NotFoundException('User does not exist!');
-        }
-        return this.userService.updatePost(id, Userpost)
-   }
-   
-   @Delete('delete/:id')
-   async delete(@Param('id') id: number):  Promise<Observable<DeleteResult>>{
-    const user = await this.userService.deletePost(id)
+  @Put('update/:id')
+  async update(
+    @Body() Userpost: User,
+    @Param('id') id: number,
+  ): Promise<Observable<UpdateResult>> {
+    const user = await this.userService.updatePost(id, Userpost);
     if (!user) {
       throw new NotFoundException('User does not exist!');
-      }
+    }
+    return this.userService.updatePost(id, Userpost);
+  }
 
-      return this.userService.deletePost(id)
-   }
+  @Delete('delete/:id')
+  async delete(@Param('id') id: number): Promise<Observable<DeleteResult>> {
+    const user = await this.userService.deletePost(id);
+    if (!user) {
+      throw new NotFoundException('User does not exist!');
+    }
 
+    return this.userService.deletePost(id);
+  }
 }
