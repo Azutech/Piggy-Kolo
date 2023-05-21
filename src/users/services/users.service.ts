@@ -3,20 +3,27 @@ import { Repository } from 'typeorm';
 import { UserEntity } from '../models/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../models/user.interface';
-import { Observable , from} from 'rxjs';
+import { Observable, from } from 'rxjs';
 
 @Injectable()
 export class UsersService {
-    constructor(
-        @InjectRepository(UserEntity)
-        private readonly userRepository: Repository<UserEntity>
-    ){}
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
 
-    createPost(userPost: User): Observable<User> {
-        return from(this.userRepository.save(userPost))
-    }
+  createPost(userPost: User): Observable<User> {
+    return from(this.userRepository.save(userPost));
+  }
 
-    findAllPost(): Observable<User[]>{
-        return from(this.userRepository.find())
-    }
+  findAllPost(): Observable<User[]> {
+    return from(this.userRepository.find());
+  }
+  findPost(id: number): Observable<User> {
+    return from(this.userRepository.findOne({ where: { id } }));
+  }
+
+  updatePost(id : number, userPost: User ) {
+    return from(this.userRepository.update(id, userPost))
+  }
 }
